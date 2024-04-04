@@ -1,5 +1,5 @@
-
-import 'package:firebase_week6/Screens/user_check.dart';
+import 'package:firebase_week6/Screens/login_screen.dart';
+import 'package:firebase_week6/Screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -24,10 +24,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Colors.lightBlueAccent),
+        appBarTheme: const AppBarTheme(color: Colors.black),
         primaryColor: Colors.blue, // Set your default color here
       ),
-      home: const UserCheckScreen(),
+      home: const LoginPage(),
     );
   }
 }

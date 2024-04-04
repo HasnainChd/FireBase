@@ -1,81 +1,96 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_week6/Screens/dashboard_screen.dart';
 import 'package:firebase_week6/Screens/login_screen.dart';
 import 'package:firebase_week6/Screens/uihelper_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController cPasswordController = TextEditingController();
 
   signUp(String email, String password) async {
-    if (email == '' && password == '') {
-      return UiHelper.customAlertBox('Enter required fields');
+    if (email == '' || password == '') {
+      return UiHelper.customAlertbox('Enter Required Fields');
     } else {
       UserCredential? userCredential;
       try {
         userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email, password: password);
-        Fluttertoast.showToast(msg: 'User registered successfully');
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) =>const  DashBoardScreen()
-              ));
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        // If user creation is successful, show success message
+        UiHelper.customAlertbox('User account created!');
       } on FirebaseAuthException catch (ex) {
-        return UiHelper.customAlertBox(ex.code.toString());
+        // If there's an error during user creation, show the error
+        return UiHelper.customAlertbox(ex.code.toString());
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('SignUp-Page'),),),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            UiHelper.customTextField(
-                emailController, Icons.mail, 'email', false),
-            const Gap(10),
-            UiHelper.customTextField(
-                passController, Icons.lock, 'password', true),
-            const Gap(10),
-
-            SizedBox(
-              width: 150,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white),
-                  onPressed: () {
-                    signUp(emailController.text.toString(),
-                        passController.text.toString());
-                  }, child: const Text('SignUp')),
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Already have account?'),
-                TextButton(onPressed: () {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) {
-                    return const LoginScreen();
-                  }));
-                }, child: const Text('SignIn'))
-              ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          actions: const [
+            Icon(
+              Icons.account_circle_outlined,
+              color: Colors.white,
+              size: 50,
             )
           ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(15),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                UiHelper.customTextField(
+                    emailController, 'Enter your email', false, Icons.mail),
+                const Gap(10),
+                UiHelper.customTextField(
+                    passwordController, 'Enter password', true, Icons.lock),
+                const Gap(10),
+                UiHelper.customTextField(
+                    cPasswordController, 'Confirm password', true, Icons.lock),
+                const Gap(10),
+                ElevatedButton(
+                    onPressed: () {
+                      if (passwordController.text != cPasswordController.text) {
+                        UiHelper.customAlertbox('password do not match');
+                      } else {
+                        signUp(emailController.text.toString(),
+                            passwordController.text.toString());
+                      }
+                    },
+                    child: const Text('Signup')),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Already have an account?'),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
+                      },
+                      child: const Text('Sign In'),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
