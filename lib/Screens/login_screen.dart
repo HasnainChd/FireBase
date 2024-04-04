@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
               const Text('Don\'t have an account?'),
               TextButton(onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignUpPage()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const SignUpPage()));
               }, child: const Text('Signup'))
             ],)
           ],

@@ -1,5 +1,4 @@
 import 'package:firebase_week6/Screens/login_screen.dart';
-import 'package:firebase_week6/Screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
