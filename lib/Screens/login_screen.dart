@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_week6/Screens/signup_screen.dart';
 import 'package:firebase_week6/Screens/uihelper_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,20 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  logIn(String email, String password)async{
+    if(email==  '' || password == ''){
+      return UiHelper.customAlertbox('Enter required fields');
+    }else{
+      UserCredential? userCredential;
+      try{
+        userCredential= await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        UiHelper.customAlertbox('Login Successfully');
+      }on FirebaseAuthException catch(ex){
+        return UiHelper.customAlertbox(ex.code.toString());
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -26,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
             UiHelper.customTextField(passwordController, 'Enter password', true, Icons.lock),
             const Gap(10),
             ElevatedButton(onPressed: (){
-
+              logIn(emailController.text.trim(), passwordController.text.trim());
             }, child: const Text('login')),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
