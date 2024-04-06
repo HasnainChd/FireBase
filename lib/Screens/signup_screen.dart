@@ -51,45 +51,43 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(15),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                UiHelper.customTextField(
-                    emailController, 'Enter your email', false, Icons.mail),
-                const Gap(10),
-                UiHelper.customTextField(
-                    passwordController, 'Enter password', true, Icons.lock),
-                const Gap(10),
-                UiHelper.customTextField(
-                    cPasswordController, 'Confirm password', true, Icons.lock),
-                const Gap(10),
-                ElevatedButton(
+          padding: const EdgeInsets.only(left: 10,right: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              UiHelper.customTextField(
+                  emailController, 'Enter your email', false, Icons.mail),
+              const Gap(5),
+              UiHelper.customTextField(
+                  passwordController, 'Enter password', true, Icons.lock),
+              const Gap(5),
+              UiHelper.customTextField(
+                  cPasswordController, 'Confirm password', true, Icons.lock),
+              const Gap(5),
+              ElevatedButton(
+                  onPressed: () {
+                    if (passwordController.text != cPasswordController.text) {
+                      UiHelper.customAlertbox('password do not match');
+                    } else {
+                      signUp(emailController.text.toString(),
+                          passwordController.text.toString());
+                    }
+                  },
+                  child: const Text('Signup')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Already have an account?'),
+                  TextButton(
                     onPressed: () {
-                      if (passwordController.text != cPasswordController.text) {
-                        UiHelper.customAlertbox('password do not match');
-                      } else {
-                        signUp(emailController.text.toString(),
-                            passwordController.text.toString());
-                      }
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const LoginPage()));
                     },
-                    child: const Text('Signup')),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Already have an account?'),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
-                      },
-                      child: const Text('Sign In'),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                    child: const Text('Sign In'),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),

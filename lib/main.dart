@@ -1,4 +1,4 @@
-import 'package:firebase_week6/Screens/login_screen.dart';
+import 'package:firebase_week6/Screens/check_user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(color: Colors.black),
         primaryColor: Colors.blue, // Set your default color here
       ),
-      home: const LoginPage(),
+      home: const CheckUser(),
     );
   }
 }

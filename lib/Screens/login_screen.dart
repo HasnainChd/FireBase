@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_week6/Screens/Forgot_password.dart';
+import 'package:firebase_week6/Screens/home_screen.dart';
 import 'package:firebase_week6/Screens/signup_screen.dart';
 import 'package:firebase_week6/Screens/uihelper_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       UserCredential? userCredential;
       try{
         userCredential= await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        Navigator.of( context).pushReplacement(MaterialPageRoute(builder: (context)=>const HomeScreen() ));
         UiHelper.customAlertbox('Login Successfully');
       }on FirebaseAuthException catch(ex){
         return UiHelper.customAlertbox(ex.code.toString());
@@ -32,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(automaticallyImplyLeading: false,),
-      body: Padding(padding: const EdgeInsets.all(15),
+      body: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -50,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
               TextButton(onPressed: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const SignUpPage()));
               }, child: const Text('Signup'))
-            ],)
+            ],),
+            TextButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const ForgotPassword()));
+            }, child: const Text('ForgotPassword?'))
           ],
       ),),
     );
